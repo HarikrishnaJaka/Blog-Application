@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<title th:text="${post.title}">Post Detail</title>
+<link rel="stylesheet"
+	href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css">
+	<script src="https://cdn.ckeditor.com/ckeditor5/41.3.1/classic/ckeditor.js"></script>
+	
+</head>
+<body>
+
+
+<!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container">
+            <a class="navbar-brand" href="#">My Blog</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto">
+                    <li class="nav-item"><a class="nav-link active" href="./">Home</a></li>
+                    <li class="nav-item"><a class="nav-link" href="Register">Register</a></li>
+                    <li class="nav-item"><a class="nav-link" href="login">Login</a></li>
+                </ul>
+                <!-- Search Bar -->
+                <form class="d-flex" role="search">
+                    <input class="form-control me-2" type="search" placeholder="Search posts..." aria-label="Search">
+                    <button class="btn btn-outline-light" type="submit">Search</button>
+                </form>
+            </div>
+        </div>
+    </nav>
+
+	<div class="container py-5">
+		<!-- Post details -->
+		<h1 th:text="${post.title}"></h1>
+		<p th:utext="${post.content}"></p>
+		<a href="@{/}" class="btn btn-secondary">Back to Posts</a>
+
+
+	<!----Comment  ---->
+		<h2>Comments</h2>
+		<div th:if="${!showcomment.empty}">
+			<div th:each="comment : ${showcomment}" class="card my-3">
+				<div class="card-body">
+					<h5 class="card-title" th:text="${comment.name}"></h5>
+					<h6 class="card-subtitle text-muted" th:text="${comment.mail}"></h6>
+					<p class="card-text" th:utext="${comment.content}"></p>
+				</div>
+			</div>
+		</div>
+		<div th:if="${showcomment.empty}">
+			<p>No comments yet. Be the first to comment!</p>
+		</div>
+
+		<!-- Comment form -->
+		<div class="mt-5">
+			<h2>Leave a Comment</h2>
+			<form th:action="@{/comment}" th:object="${comments}" method="post">
+				<div class="mb-3">
+					<label for="name" class="form-label">Name</label> <input
+						type="text" class="form-control" id="name" name="name"
+						placeholder="Enter your name" required th:field="*{name}">
+				</div>
+				<div class="mb-3">
+					<label for="email" class="form-label">Email</label> <input
+						type="email" class="form-control" id="email" name="email"
+						placeholder="Enter your email" required th:field="*{mail}">
+				</div>
+				<div class="mb-3">
+					<label for="comment" class="form-label">Comment</label>
+					<textarea class="form-control" id="content" name="comment" rows="4"
+						placeholder="Write your comment here..." 
+						th:field="*{content}"></textarea>
+				</div>
+				<button type="submit" class="btn btn-primary">Submit
+					Comment</button>
+			</form>
+		</div>
+	</div>
+	
+	<script>
+        ClassicEditor
+            .create(document.querySelector('#content'))
+            .catch(error => {
+                console.error('Error initializing CKEditor:', error);
+            });
+    </script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+	
+	
+</body>
+</html>

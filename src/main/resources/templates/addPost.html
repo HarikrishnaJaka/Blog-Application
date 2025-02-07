@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Post Submission</title>
+    <link rel="stylesheet" 
+          href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+	<script src="https://cdn.ckeditor.com/ckeditor5/41.3.1/classic/ckeditor.js"></script>
+</head>
+<body>
+
+<!-- Navbar -->
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <div class="container">
+        <a class="navbar-brand" href="#">My Blog</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav me-auto">
+            
+                <li class="nav-item"><a class="nav-link active" href="dashboard">Posts</a></li>
+                <li class="nav-item"><a class="nav-link" href="addPost">New Post</a></li>
+                <li class="nav-item"><a class="nav-link" href="comment">Comments</a></li>
+                <li class="nav-item"><a class="nav-link" href="logout">Logout</a></li>
+            </ul>
+            <!-- Search Bar -->
+            <form class="d-flex" role="search">
+                <input class="form-control me-2" type="search" placeholder="Search posts..." aria-label="Search">
+                <button class="btn btn-outline-light" type="submit">Search</button>
+            </form>
+        </div>
+    </div>
+</nav>
+
+<div class="container mt-5">
+    <h2>Create a New Post</h2>
+    <form th:action="@{/addPosts}" th:object="${postform}" method="post">
+        <!-- Title Field -->
+        <div class="mb-3">
+            <label for="title" class="form-label">Title</label>
+            <input type="text" class="form-control" id="title" 
+                   th:field="*{title}" placeholder="Enter post title" required>
+        </div>
+
+        <!-- Short Description -->
+        <div class="mb-3">
+            <label for="shortDescription" class="form-label">Short Description</label>
+            <textarea class="form-control" id="editor" 
+                      th:field="*{description}" 
+                      placeholder="Enter post short description" ></textarea>
+        </div>
+
+        <div class="mb-3">
+		    <label for="content" class="form-label">Content</label>
+		    <textarea class="form-control" id="content"
+		              th:field="*{content}" placeholder="Enter post content" 
+		              style="height: 300px; width: 100%;"></textarea>
+		</div>
+		
+		        <div style="text-align: center;">
+                   <h3 th:text="${resmsg}" class="text-danger"></h3>
+                </div>
+
+
+        <!-- Submit Button -->
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+</div>
+<script>
+        ClassicEditor
+            .create(document.querySelector('#content'))
+            .catch(error => {
+                console.error('Error initializing CKEditor:', error);
+            });
+    </script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
