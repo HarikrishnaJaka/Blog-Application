@@ -2,6 +2,7 @@ package com.hk.entity;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
@@ -46,6 +47,13 @@ public class Posts
 	@ManyToOne
 	@JoinColumn(name = "user id")
 	private User user;
+
+	@Override
+	public String toString() {
+		return "Posts [pid=" + pid + ", title=" + title + ", description=" + description + ", content=" + content
+				+ ", postCreatedon=" + postCreatedon + ", postUpdateon=" + postUpdateon + ", comments=" + comments
+				+ ", user=" + user + "]";
+	}
 
 	
 	

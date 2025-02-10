@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import com.hk.binding.Blogpost;
 import com.hk.entity.Posts;
+import com.hk.entity.User;
 import com.hk.repository.Ipostsrepository;
 import com.hk.repository.Iuserrepository;
 
@@ -53,6 +54,10 @@ public class Postserviceimpl implements Ipostsservice {
 		Optional<Posts> opt = postrepo.findById(edposts.getPid());
 		if (opt.isPresent()) {
 			edposts.setPostCreatedon(opt.get().getPostCreatedon());
+			Integer userId = (Integer) session.getAttribute("userId");
+			Optional<User> user=userRepo.findById(userId);
+			edposts.setUser(user.get());
+			System.out.println(opt.get());
 			postrepo.save(edposts);
 			return "post details are updated";
 		} else {
